@@ -1,7 +1,6 @@
 Step1. To generate package.json file run the command: npm init -y
 Step2. Add express library dependencies: npm install express --save
 Step3. Create app.js file and write the following code:
-
 const express = require('express')
 
 const app = express()
@@ -29,3 +28,33 @@ ENTRYPOINT ["node", "app.js"]
 
 Step5. Building the image: sudo docker build -t docker-demo/node:latest .
 Step6. Creating Container: docker run -p 8000:3000 docker-demo/node
+Step7. Improving our set up with Environment Variables: nano Dockerfile
+# Dockerfile
+
+FROM node:latest
+
+WORKDIR /app
+
+COPY . .
+
+ENV PORT=3000
+
+RUN npm install
+
+EXPOSE $PORT
+
+ENTRYPOINT ["node", "app.js"]
+
+Step8. Read the environment variable value in App.js:
+const express = require('express')
+
+const app = express()
+
+const port = process.env.PORT
+
+app.get('/', (req, res) => res.send('Hello World!'))
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+Reference: https://dev.to/azure/learn-docker-from-the-beginning-part-i-images-and-containers-2g6a
+
