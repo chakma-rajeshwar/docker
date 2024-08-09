@@ -1,0 +1,36 @@
+Install MongoDB: docker pull mongo
+Install MongoDB-express: docker pull mongo-express
+Show list of Docker network: docker network ls
+As we use MongoDB and MongoDB-express in a same network. So create a bridge network: docker network create mongo-network
+Now run the MongoDB as follows:
+sudo docker run -d \
+-p 27017:27017 \
+-e MONGO_INITDB_ROOT_USERNAME=admin \
+-e MONGO_INITDB_ROOT_PASSWORD=password \
+--name mongodb \
+--net mongo-network \
+mongo
+
+
+Now run the MongoDB-express as follows:
+sudo docker run -d \
+-p 8081:8081 \
+-e ME_CONFIG_MONGODB_AUTH_USERNAME=admin \
+-e ME_CONFIG_MONGODB_AUTH_PASSWORD=password \
+-e ME_CONFIG_MONGODB_URL="mongodb://mongodb:27017" \
+--name mongo-express \
+--net mongo-network \
+-e ME_CONFIG_MONGODB_SERVER=mongodb \
+mongo-express
+
+Now rename container mongodb4.4 to mongodb
+docker stop mongodb4.4
+docker rename mongodb4.4 mongodb
+docker start mongodb
+
+To check port availability
+netstat -anp | grep "8081"
+
+Loging info:
+username: admin
+password: pass
