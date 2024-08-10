@@ -5,3 +5,8 @@ services:
       context: ./product-service
     ports:
       - "8001:3001"
+  inventory-service:
+    build:
+      context: ./inventory-service
+    ports:
+        - "8002:3002"
