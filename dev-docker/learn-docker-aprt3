@@ -1,0 +1,5 @@
+1. Instally MySQL database: sudo apt-get install mysql-server
+2. Login to MySQL console: myaql -uroot
+3. Run some basic commands: show databases;
+                            CREATE DATABASE customer;
+                            USE customer;
