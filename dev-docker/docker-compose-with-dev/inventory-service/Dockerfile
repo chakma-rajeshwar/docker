@@ -6,8 +6,9 @@ WORKDIR /app
 
 COPY . .
 
+ENV PORT=3002
+
 RUN npm install
 
-EXPOSE 3002
+EXPOSE $PORT
 
-ENTRYPOINT ["node", "app.js"]
