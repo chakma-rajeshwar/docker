@@ -1,0 +1,10 @@
+1. Create a docker-compose file: nano docker-compose.yaml
+and add the following codes:
+version: '3'
+services:
+  product-service:
+    build:
+      context: ./product-service
+    ports:
+      - "8000:3000"
+2. Build an image with Docker-Compose: docker-compose build
