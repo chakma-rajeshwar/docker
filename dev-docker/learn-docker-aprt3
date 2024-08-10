@@ -78,3 +78,6 @@ Example app listening on port 3000!
 Connected to PostgreSQL!
 
 8. Linking with the postgres database to the container of my-container by creating Docker Network:
+sudo docker network create --driver bridge 
+sudo docker run -d -p 8000:3000 --name my-container --net isolated_network docker-demo/node
+sudo docker run --name postgres-db --net isolated_network -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
