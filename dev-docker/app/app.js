@@ -1,15 +1,9 @@
-# Dockerfile
+const express = require('express')
 
-FROM node:latest
+const app = express()
 
-WORKDIR /app
+const port = process.env.PORT
 
-COPY . .
+app.get('/', (req, res) => res.send('Hello World!'))
 
-ENV PORT=3000
-
-RUN npm install
-
-EXPOSE $PORT
-
-ENTRYPOINT ["node", "app.js"]
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
