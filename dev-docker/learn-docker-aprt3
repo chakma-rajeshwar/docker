@@ -1,6 +1,6 @@
 1. Instally MySQL database: sudo apt-get install postgresql-client
 2. Login to MySQL console: psql -U postgres
-3. Run some basic commands: \l;
+3. Run some basic commands: \l; #List all databases
                             CREATE DATABASE customer;
 4. Create table by using .sql file: nano database.sql
 Copy-paste the following commands:
@@ -23,10 +23,9 @@ description TEXT,
 PRIMARY KEY (task_id)
 
 );
-Then, run the command: sudo mysql -uroot Customer < /home/app/database.sql (psql -h 0.0.0.0 -U postgres -d mydatabase -f /home/user/myscript.sql
+Then, run the command: sudo psql -h 0.0.0.0 -U postgres -d customer < /home/app/database.sql (psql -h 0.0.0.0 -U postgres -d mydatabase -f /home/user/myscript.sql
 )
-Go to the database console: USE Customer;
-                            SHOW TABLES;
+Go to the database console: 
 5. Now use Database Container: sudo docker run --name postgres-db -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
     Login to database console: sudo docker exec -it postgres-db psql -U postgres
 6. Connecting to database from Node.js: npm install postgres
@@ -50,5 +49,30 @@ client.connect(err => {
 
 Then, run the command: sudo psql -h 0.0.0.0 -p 5432 -U postgres
                        node app.js
+7. Linking with the postgres database to the container of my-container:
+Remove the container first: sudo docker stop my-container && sudo docker rm my-container
+Edit app.js file as bellow:
+// Create a new PostgreSQL client
+const client = new Client({
+  host: "postgres-db", // Use container name or IP for Docker
+  port: 5432,          // Default PostgreSQL port
+  user: "postgres",    // PostgreSQL username
+  password: "complexpassword", // Your PostgreSQL password
+  database: 'Customers' // The name of your database
+});
 
+Then build it again: sudo docker build -t docker-demo/node:latest .
+                     sudo docker run -d -p 8000:3000 --name my-container --link postgres-db:postgres docker-demo/node
+And get the final result: 
+app@vm-devops:~/docker-dev$ sudo docker logs my-container
 
+> docker-dev@1.0.0 start
+> nodemon app.js
+
+[nodemon] 3.1.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node app.js`
+Example app listening on port 3000!
+Connected to PostgreSQL!
