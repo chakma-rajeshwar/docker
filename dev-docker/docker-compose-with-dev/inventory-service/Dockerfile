@@ -8,6 +8,6 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 3000
+EXPOSE 3002
 
 ENTRYPOINT ["node", "app.js"]
