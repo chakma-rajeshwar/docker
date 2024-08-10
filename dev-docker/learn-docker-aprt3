@@ -1,5 +1,54 @@
-1. Instally MySQL database: sudo apt-get install mysql-server
-2. Login to MySQL console: myaql -uroot
-3. Run some basic commands: show databases;
+1. Instally MySQL database: sudo apt-get install postgresql-client
+2. Login to MySQL console: psql -U postgres
+3. Run some basic commands: \l;
                             CREATE DATABASE customer;
-                            USE customer;
+4. Create table by using .sql file: nano database.sql
+Copy-paste the following commands:
+CREATE TABLE IF NOT EXISTS tasks (
+
+task_id INT AUTO_INCREMENT,
+
+title VARCHAR(255) NOT NULL,
+
+start_date DATE,
+
+due_date DATE,
+
+status TINYINT NOT NULL,
+
+priority TINYINT NOT NULL,
+
+description TEXT,
+
+PRIMARY KEY (task_id)
+
+);
+Then, run the command: sudo mysql -uroot Customer < /home/app/database.sql (psql -h 0.0.0.0 -U postgres -d mydatabase -f /home/user/myscript.sql
+)
+Go to the database console: USE Customer;
+                            SHOW TABLES;
+5. Now use Database Container: sudo docker run --name postgres-db -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
+    Login to database console: sudo docker exec -it postgres-db psql -U postgres
+6. Connecting to database from Node.js: npm install postgres
+Now edit app.js file and add the following code top of the app.js file:
+const { Client } = require('pg');
+const client = new Client({
+  host: "localhost",
+  port: 5432, // Default PostgreSQL port
+  user: "postgres", // Replace with your PostgreSQL user
+  password: "password", // Replace with your PostgreSQL password
+  database: 'customers' // Replace with your PostgreSQL database name
+});
+
+client.connect(err => {
+  if (err) {
+    console.error('Connection error', err.stack);
+  } else {
+    console.log('Connected to PostgreSQL!');
+  }
+});
+
+Then, run the command: sudo psql -h 0.0.0.0 -p 5432 -U postgres
+                       node app.js
+
+
