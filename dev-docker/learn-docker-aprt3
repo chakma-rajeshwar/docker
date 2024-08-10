@@ -76,3 +76,5 @@ app@vm-devops:~/docker-dev$ sudo docker logs my-container
 [nodemon] starting `node app.js`
 Example app listening on port 3000!
 Connected to PostgreSQL!
+
+8. Linking with the postgres database to the container of my-container by creating Docker Network:
